@@ -3,23 +3,28 @@ import deepsecurity
 from deepsecurity.rest import ApiException
 import argparse
 import pprint
+import csv
 
 URL = 'app.deepsecurity.trendmicro.com/api'
 API_KEY = ''
 API_VERSION = 'v1'
 API_CLIENT = None
 MAX_ITEMS_PER_PAGE = 1000 #Up To 5000
+EXPORT_CSV = False
 
 def setup(parsed_args):
     global URL
     global API_KEY
     global API_CLIENT
+    global EXPORT_CSV
 
     #BASLINE
     if parsed_args.url:
         URL = parsed_args.url
     if parsed_args.key:
         API_KEY = parsed_args.key
+    if parsed_args.csv:
+        EXPORT_CSV = parsed_args.csv
     
     if not sys.warnoptions:
         warnings.simplefilter("ignore")
@@ -85,6 +90,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--url','-u', help="API URL (add /api in the end)")
     parser.add_argument('--key','-k', help="API Key w/ Computer VIEW permission")
+    parser.add_argument('--csv', help="Export CSV File with results", action='store_true')
     parsed_args = parser.parse_args()
     
     setup(parsed_args)
@@ -101,6 +107,10 @@ if __name__ == "__main__":
 
     assigned_recommended_ips_rules_computer_dict = {}
 
+    if EXPORT_CSV:
+        csv_file = open('application_types.csv','w')
+        csv_writer = csv.writer(csv_file)
+        
     for c in computer_list:
         aux=fetch_assignments_recommendations(c.id)
         if aux == None:
@@ -110,12 +120,20 @@ if __name__ == "__main__":
             continue
 
         recommended_application_type_ids = [ips_rules_dict[r_id].application_type_id for r_id in aux.recommended_to_assign_rule_ids]
-        app_types_ids_in_computer_set = set(recommended_application_type_ids) | set(aux.assigned_application_type_ids)
+        app_types_ids_in_computer = list(set(recommended_application_type_ids) | set(aux.assigned_application_type_ids))
+        app_types_names_in_computer = []
+        for app_id in app_types_ids_in_computer:
+            app_types_names_in_computer.append(application_types_dict[app_id].name)
+        app_types_names_in_computer.sort()
 
         print("COMPUTER: {}".format(c.host_name))
         print("Detected Application Types:")
-        for app_id in app_types_ids_in_computer_set:
-            print("\t{}".format( application_types_dict[app_id].name))
+        pprint.pprint(app_types_names_in_computer,indent=4)
         print("\n")
 
+        if EXPORT_CSV:
+            csv_writer.writerow([c.host_name,app_types_names_in_computer])
+
+    if EXPORT_CSV:
+        csv_file.close()
     exit(0)

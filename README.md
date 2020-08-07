@@ -2,7 +2,7 @@
 Tools &amp; utilities that use Deep Security's RESTful API
 
 # Pre-requesites
-(The Deep Security SDK)[https://automation.deepsecurity.trendmicro.com/article/fr/python?platform=on-premise]
+[The Deep Security SDK(https://automation.deepsecurity.trendmicro.com/article/fr/python?platform=on-premise)
 
 # Computer IPS Baseline
 Choose a "Baseline" computer by ID or Hostname, the script will check the **difference** (`Union - Intersection`) between the set of rules applied for all other computers that have *Intrusion Prevention enabled* and the baseline computer.
@@ -24,31 +24,27 @@ Use the assigned/recommended for assignment Intrusion Prevention rules to list t
 ## Sample output
 
 ```
-COMPUTER: Server A
+
+COMPUTER: SERVER A
 Detected Application Types:
-        Web Client Common
-        Malicious Network Traffic
-        Web Application Ruby Based
-        Web Client SSL
-        Web Client Mozilla Firefox
-        Mail Server Common
-        Web Server Common
-        DNS Client
-        SSL Client
+[   'Mail Server Common',
+    'OpenSSL Client',
+    'SSL Client',
+    'Web Application Common',
+    'Web Client Common',
+    'Web Client SSL',
+    'Web Server Common']
 
 
-COMPUTER: Server B
+COMPUTER: SERVER B
 Detected Application Types:
-        Web Client Common
-        Web Server Miscellaneous
-        Microsoft Office
-        Remote Desktop Protocol Client
-        Web Client SSL
-        Web Client Internet Explorer/Edge
-        Web Client Mozilla Firefox
-        Web Server Common
-        DCERPC Services - Client
-        DCERPC Services
-        SSL Client
-        Intel AMT
+[   'DCERPC Services',
+    'DCERPC Services - Client',
+    'SSL Client',
+    'Web Client Common',
+    'Web Client Internet Explorer/Edge',
+    'Web Client Mozilla Firefox',
+    'Web Client SSL',
+    'Web Server Common']
+
 ```
