@@ -1,0 +1,7 @@
+- name: Install deep security agent
+  hosts: all
+  remote_user: ec2-user
+
+  tasks:
+  - script: ./dsa_deployment.sh
+    become: yes

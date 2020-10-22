@@ -1,0 +1,11 @@
+- name: Activate a pre-installed deep security agent
+  hosts: all
+  remote_user: ec2-user
+
+  tasks:
+  - name: Reset Agent
+    command: /opt/ds_agent/dsa_control -r
+    become: yes  
+  - name: Activating Agent
+    command: /opt/ds_agent/dsa_control -a dsm://agents.deepsecurity.trendmicro.com:443/ "tenantID:48099067-72D3-5BA3-D24C-4817FB2DE13C" "token:83618121-10B3-A62A-ECF8-81E9E8070423"
+    become: yes

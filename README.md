@@ -1,5 +1,5 @@
-# ds-api-tools
-Tools &amp; utilities that use Deep Security's RESTful API
+# ds-auto-tools
+Tools &amp; utilities that use Deep Security's RESTful API, Ansible and other technologies for automation
 
 # Pre-requesites
 [The Deep Security SDK(https://automation.deepsecurity.trendmicro.com/article/fr/python?platform=on-premise)
@@ -48,3 +48,6 @@ Detected Application Types:
     'Web Server Common']
 
 ```
+
+# Ansible Playbook
+A quick-and-dirty proof of concept for deployment/activation of DS agents using ansible
